@@ -8,6 +8,8 @@ pub struct ChessBoard {
     pub white_queens: u64,
     pub white_king: u64,
 
+    pub bitboards: [[u64; u64; u64; u64; u64; u64], [u64; u64; u64; u64; u64; u64]],
+
     pub black_pawns: u64,
     pub black_knights: u64,
     pub black_bishops: u64,
@@ -124,5 +126,13 @@ impl ChessBoard {
             | self.black_queens
             | self.black_king;
         self.all_pieces = self.white_pieces | self.black_pieces;
+    }
+}
+
+
+impl ChessBoard {
+    pub fn move_piece(&mut self, piece_type: u8, piece_color: bool) {
+        // Going to change the bitboards to be in an array
+        // Ignore this function for the time being
     }
 }
