@@ -84,9 +84,253 @@ pub fn set_bit(bitboard: u64, bit_position: usize, value: bool) -> u64 {
     }
 }
 
+/*
+Gonna recreate this:
+public void LoadFenString()
+        {
+            // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+            string fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            board = new();
+
+
+            byte piecePosition = 0;
+            fenString = fenString.Replace("/", "");
+
+            // Find location of spaces
+            List<int> spaceIndices = new List<int>();
+
+            for (int j = 0; j < fenString.Length; j++)
+            {
+                if (fenString[j] == ' ')
+                {
+                    spaceIndices.Add(j);
+                }
+            }
+
+            int[] spaceIndicesArray = spaceIndices.ToArray();
+
+            /*for (int k = 0; k < spaceIndicesArray.Length; k++) {
+                Debug.Log(spaceIndicesArray[k]);
+            }*/
+
+            board.ClearBoard();
+            int i;
+
+            // Piece positions
+            for (i = 0; i < fenString.Length; i++)
+            {
+                if (fenString[i] == ' ')
+                {
+                    break;
+                }
+
+                // Check for black pieces
+                if (fenString[i] == 'r')
+                {
+                    HelperFunctions.SetBit(ref board.BlackRooks, piecePosition, 1);
+                }
+                else if (fenString[i] == 'n')
+                {
+                    HelperFunctions.SetBit(ref board.BlackKnights, piecePosition, 1);
+                }
+                else if (fenString[i] == 'b')
+                {
+                    HelperFunctions.SetBit(ref board.BlackBishops, piecePosition, 1);
+                }
+                else if (fenString[i] == 'k')
+                {
+                    HelperFunctions.SetBit(ref board.BlackKing, piecePosition, 1);
+                }
+                else if (fenString[i] == 'q')
+                {
+                    HelperFunctions.SetBit(ref board.BlackQueens, piecePosition, 1);
+                }
+                else if (fenString[i] == 'p')
+                {
+                    HelperFunctions.SetBit(ref board.BlackPawns, piecePosition, 1);
+                }
+
+                // Check for white pieces
+                if (fenString[i] == 'R')
+                {
+                    HelperFunctions.SetBit(ref board.WhiteRooks, piecePosition, 1);
+                }
+                else if (fenString[i] == 'N')
+                {
+                    HelperFunctions.SetBit(ref board.WhiteKnights, piecePosition, 1);
+                }
+                else if (fenString[i] == 'B')
+                {
+                    HelperFunctions.SetBit(ref board.WhiteBishops, piecePosition, 1);
+                }
+                else if (fenString[i] == 'K')
+                {
+                    HelperFunctions.SetBit(ref board.WhiteKing, piecePosition, 1);
+                }
+                else if (fenString[i] == 'Q')
+                {
+                    HelperFunctions.SetBit(ref board.WhiteQueens, piecePosition, 1);
+                }
+                else if (fenString[i] == 'P')
+                {
+                    HelperFunctions.SetBit(ref board.WhitePawns, piecePosition, 1);
+                }
+
+                // Make numbers in fenStrings work
+                // NOTE: I'm not adding cases for the number 1 because it is already done by the for loop
+                if (fenString[i] == '2')
+                {
+                    piecePosition++;
+                }
+                else if (fenString[i] == '3')
+                {
+                    piecePosition += 2;
+                }
+                else if (fenString[i] == '4')
+                {
+                    piecePosition += 3;
+                }
+                else if (fenString[i] == '5')
+                {
+                    piecePosition += 4;
+                }
+                else if (fenString[i] == '6')
+                {
+                    piecePosition += 5;
+                }
+                else if (fenString[i] == '7')
+                {
+                    piecePosition += 6;
+                }
+                else if (fenString[i] == '8')
+                {
+                    piecePosition += 7;
+                }
+
+                piecePosition++;
+            }
+
+            // Side to move
+            if (fenString[spaceIndicesArray[0] + 1] == 'w')
+            {
+                board.WhiteToMove = true;
+            }
+            else
+            {
+                board.WhiteToMove = false;
+            }
+
+            // Castling
+            FenStringCastling(fenString, spaceIndicesArray[1]);
+
+            //finish setting up the board
+            board.WhiteBishops = HelperFunctions.FlipBitboard(board.WhiteBishops);
+            board.WhiteKing = HelperFunctions.FlipBitboard(board.WhiteKing);
+            board.WhiteQueens = HelperFunctions.FlipBitboard(board.WhiteQueens);
+            board.WhiteRooks = HelperFunctions.FlipBitboard(board.WhiteRooks);
+            board.WhiteKnights = HelperFunctions.FlipBitboard(board.WhiteKnights);
+            board.WhitePawns = HelperFunctions.FlipBitboard(board.WhitePawns);
+
+            board.BlackBishops = HelperFunctions.FlipBitboard(board.BlackBishops);
+            board.BlackKing = HelperFunctions.FlipBitboard(board.BlackKing);
+            board.BlackQueens = HelperFunctions.FlipBitboard(board.BlackQueens);
+            board.BlackRooks = HelperFunctions.FlipBitboard(board.BlackRooks);
+            board.BlackKnights = HelperFunctions.FlipBitboard(board.BlackKnights);
+            board.BlackPawns = HelperFunctions.FlipBitboard(board.BlackPawns);
+
+            for (int j = 0; j < 64; j++)
+            {
+                if (HelperFunctions.GetBit(j, board.BlackKing) == 1) board.BlackKingPos = (byte)j;
+                if (HelperFunctions.GetBit(j, board.WhiteKing) == 1) board.WhiteKingPos = (byte)j;
+            }
+
+            board.UpdateBitBoards();
+        }
+
+        private void FenStringCastling(string fenString, int fenStringPos)
+        {
+            Debug.Log($"Fenstring: {fenString}, Fenstringposition: {fenStringPos}");
+            // First position
+            if (fenString[fenStringPos + 1] == '-')
+            {
+                board.WhiteCanCastleKingside = false;
+                board.WhiteCanCastleQueenside = false;
+                board.BlackCanCastleKingside = false;
+                board.BlackCanCastleQueenside = false;
+
+                return;
+            }
+            else if (fenString[fenStringPos + 1] == 'K')
+            {
+                board.WhiteCanCastleKingside = true;
+            }
+            else if (fenString[fenStringPos + 1] == 'Q')
+            {
+                board.WhiteCanCastleQueenside = true;
+            }
+            else if (fenString[fenStringPos + 1] == 'k')
+            {
+                board.BlackCanCastleKingside = true;
+            }
+            else if (fenString[fenStringPos + 1] == 'q')
+            {
+                board.BlackCanCastleQueenside = true;
+
+                return;
+            }
+
+            if (fenString[fenStringPos + 2] == ' ')
+            {
+                return;
+            }
+            else if (fenString[fenStringPos + 2] == 'Q')
+            {
+                board.WhiteCanCastleQueenside = true;
+            }
+            else if (fenString[fenStringPos + 2] == 'k')
+            {
+                board.BlackCanCastleKingside = true;
+            }
+            else if (fenString[fenStringPos + 2] == 'q')
+            {
+                board.BlackCanCastleQueenside = true;
+
+                return;
+            }
+
+            if (fenString[fenStringPos + 3] == ' ')
+            {
+                return;
+            }
+            else if (fenString[fenStringPos + 3] == 'k')
+            {
+                board.BlackCanCastleKingside = true;
+            }
+            else if (fenString[fenStringPos + 3] == 'q')
+            {
+                board.BlackCanCastleQueenside = true;
+
+                return;
+            }
+
+            if (fenString[fenStringPos + 4] == ' ')
+            {
+                return;
+            }
+            else if (fenString[fenStringPos + 4] == 'q')
+            {
+                board.BlackCanCastleQueenside = true;
+
+                return;
+            }
+
+
+        }
+*/
 impl ChessBoard {
-    pub fn fen_string_reader(&mut self) {
+    pub fn fen_string_reader(&mut self, fen_string: String) {
         println!("fen_string_reader does not do anything useful yet.");
+        println!("{fen_string}");
         self.bitboards[self.pawns as usize][self.black as usize] = 0xffffffffffffffff;
     }
 }
