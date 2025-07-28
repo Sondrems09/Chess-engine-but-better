@@ -3,16 +3,6 @@ pub struct ChessBoard {
     // Bitboards for each piece type
     pub bitboards: [[u64; 6]; 2],
 
-    pub pawns: u8,
-    pub knights: u8,
-    pub bishops: u8,
-    pub rooks: u8,
-    pub queens: u8,
-    pub king: u8,
-
-    pub white: u8,
-    pub black: u8,
-
     pub white_can_castle_queenside: bool,
     pub white_can_castle_kingside: bool,
     pub black_can_castle_queenside: bool,
@@ -42,14 +32,6 @@ pub struct ChessBoard {
 impl ChessBoard {
     pub fn new() -> Self {
         ChessBoard {
-            pawns: 0,
-            knights: 1,
-            bishops: 2,
-            rooks: 3,
-            queens: 4,
-            king: 5,
-            white: 0,
-            black: 1,
             bitboards: [[0; 6]; 2],
             all_pieces: 0,
             black_pieces: 0,
@@ -329,9 +311,10 @@ public void LoadFenString()
 */
 impl ChessBoard {
     pub fn fen_string_reader(&mut self, fen_string: String) {
+        use crate::constants::*;
         println!("fen_string_reader does not do anything useful yet.");
         println!("{fen_string}");
-        self.bitboards[self.pawns as usize][self.black as usize] = 0xffffffffffffffff;
+        self.bitboards[PAWNS as usize][BLACK as usize] = 0xffffffffffffffff;
     }
 }
 
