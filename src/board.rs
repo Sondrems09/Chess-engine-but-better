@@ -1,21 +1,17 @@
 #[derive(Clone, Debug, PartialEq)]
 pub struct ChessBoard {
     // Bitboards for each piece type
-    pub white_pawns: u64,
-    pub white_knights: u64,
-    pub white_bishops: u64,
-    pub white_rooks: u64,
-    pub white_queens: u64,
-    pub white_king: u64,
+    pub bitboards: [[u64; 6]; 2],
 
-    pub bitboards: [[u64; u64; u64; u64; u64; u64], [u64; u64; u64; u64; u64; u64]],
+    pub pawns: u8,
+    pub knights: u8,
+    pub bishops: u8,
+    pub rooks: u8,
+    pub queens: u8,
+    pub king: u8,
 
-    pub black_pawns: u64,
-    pub black_knights: u64,
-    pub black_bishops: u64,
-    pub black_rooks: u64,
-    pub black_queens: u64,
-    pub black_king: u64,
+    pub white: u8,
+    pub black: u8,
 
     pub white_can_castle_queenside: bool,
     pub white_can_castle_kingside: bool,
@@ -45,48 +41,25 @@ pub struct ChessBoard {
 
 impl ChessBoard {
     pub fn new() -> Self {
-        let white_pawns = 0x000000000000FF00;
-        let white_knights = 0x0000000000000042;
-        let white_bishops = 0x0000000000000024;
-        let white_rooks = 0x0000000000000081;
-        let white_queens = 0x0000000000000008;
-        let white_king = 0x0000000000000010;
-
-        let black_pawns = 0x00FF000000000000;
-        let black_knights = 0x4200000000000000;
-        let black_bishops = 0x2400000000000000;
-        let black_rooks = 0x8100000000000000;
-        let black_queens = 0x0800000000000000;
-        let black_king = 0x1000000000000000;
-
-        let white_pieces =
-            white_pawns | white_knights | white_bishops | white_rooks | white_queens | white_king;
-        let black_pieces =
-            black_pawns | black_knights | black_bishops | black_rooks | black_queens | black_king;
-        let all_pieces = white_pieces | black_pieces;
-
         ChessBoard {
-            white_pawns,
-            white_knights,
-            white_bishops,
-            white_rooks,
-            white_queens,
-            white_king,
-            black_pawns,
-            black_knights,
-            black_bishops,
-            black_rooks,
-            black_queens,
-            black_king,
+            pawns: 0,
+            knights: 1,
+            bishops: 2,
+            rooks: 3,
+            queens: 4,
+            king: 5,
+            white: 0,
+            black: 1,
+            bitboards: [[0; 6]; 2],
+            all_pieces: 0,
+            black_pieces: 0,
+            white_pieces: 0,
             white_can_castle_queenside: false,
             white_can_castle_kingside: false,
             black_can_castle_queenside: false,
             black_can_castle_kingside: false,
             has_white_castled: false,
             has_black_castled: false,
-            all_pieces,
-            white_pieces,
-            black_pieces,
             en_passant_target_square: u8::MAX,
             white_king_pos: 4,
             black_king_pos: 60,
@@ -112,6 +85,14 @@ pub fn set_bit(bitboard: u64, bit_position: usize, value: bool) -> u64 {
 }
 
 impl ChessBoard {
+    pub fn fen_string_reader(&mut self) {
+        println!("fen_string_reader does not do anything useful yet.");
+        self.bitboards[self.pawns as usize][self.black as usize] = 0xffffffffffffffff;
+    }
+}
+
+/*
+impl ChessBoard {
     pub fn update_bitboards(&mut self) {
         self.white_pieces = self.white_pawns
             | self.white_knights
@@ -128,11 +109,11 @@ impl ChessBoard {
         self.all_pieces = self.white_pieces | self.black_pieces;
     }
 }
-
-
+*/
+/*
 impl ChessBoard {
     pub fn move_piece(&mut self, piece_type: u8, piece_color: bool) {
         // Going to change the bitboards to be in an array
         // Ignore this function for the time being
     }
-}
+}*/
