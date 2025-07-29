@@ -157,7 +157,8 @@ public void LoadFenString()
                 {
                     HelperFunctions.SetBit(ref board.WhitePawns, piecePosition, 1);
                 }
-
+*/
+/*
                 // Make numbers in fenStrings work
                 // NOTE: I'm not adding cases for the number 1 because it is already done by the for loop
                 if (fenString[i] == '2')
@@ -310,11 +311,22 @@ public void LoadFenString()
         }
 */
 impl ChessBoard {
-    pub fn fen_string_reader(&mut self, fen_string: String) {
+    pub fn fen_string_reader(&mut self, mut fen_string: String) {
         use crate::constants::*;
         println!("fen_string_reader does not do anything useful yet.");
         println!("{fen_string}");
         self.bitboards[PAWNS as usize][BLACK as usize] = 0xffffffffffffffff;
+
+        // Actual code starts here. The rest was just testing.
+        let piece_position = 0;
+
+        fen_string = fen_string.replace("/", "");
+
+        let parts = fen_string.split_whitespace();
+
+        print!("{:?}", parts);
+
+        println!("{fen_string}");
     }
 }
 
