@@ -1,0 +1,49 @@
+1.
+Board representation
+- Bitboard probably
+- Piece representation
+- Fen reading and printing to the board
+- Current state of game
+- Previous moves history
+- Zobrist Hashing (I think this makes stuff faster)
+- Basic control of the board
+- Functions to get information from the board
+
+2.
+Move generator
+- How pieces move
+- Make a good move format (UCI i think would be good) 
+- Generate possible moves
+- Special moves (castling, etc.)
+- List with generated moves
+- Separate Captures and silent moves (Again, i think this makes stuff faster)
+- Determine if a square is attacked (Attack board?)
+
+3.
+Perft (performance testing)
+- Add a functions that runs on given positions
+- Run through a perft suite containing "tricky" positions.
+
+**Here move generation should be bug free**
+
+4.
+Search
+- Give the search the right info
+- Iterative deepening function
+- Alpha-Beta function
+- Quiescence search (Evals only quiet positions)
+- Make fixed search possible (so moves dont take infinite time)
+- Timem management for non-fixed searches
+- Helper functions (draws for example)
+5.
+Eval function
+- Material
+- Piece Square tables
+6.
+- Order moves for efficiency
+7.
+Make a communication interface
+- write UCI-protocol
+- Make sure the engine works
+
+** If everything works, add more advanced features later on **
