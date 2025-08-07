@@ -15,6 +15,7 @@ Move generator
 - Make a good move format (UCI i think would be good) 
 - Generate possible moves
 - Special moves (castling, etc.)
+     - For en passant, we can just clear the Space between a Space when a pawn moves to an empty square
 - List with generated moves
 - Separate Captures and silent moves (Again, i think this makes stuff faster)
 - Determine if a square is attacked (Attack board?)
